@@ -48,7 +48,7 @@ func (l *LimitOrder) ValidateLimitOrder() error {
 type OcoOrder struct {
 	Symbol      string
 	Side        string
-	StopTimeInForce string
+	StopLimitTimeInForce string
 	StopLimitPrice float64
 	StopPrice float64
 	Quantity    float64
@@ -63,8 +63,8 @@ func (l *OcoOrder) ValidateOcoOrder() error {
 		return errors.New("Order must contain a symbol")
 	case !OrderSideEnum[l.Side]:
 		return errors.New("Invalid or empty order side")
-	case !OrderTIFEnum[l.StopTimeInForce]:
-		return errors.New("Invalid or empty order timeInForce")
+	case !OrderTIFEnum[l.StopLimitTimeInForce]:
+		return errors.New("Invalid or empty order stopLimitTimeInForce")
 	case l.Quantity <= 0.0:
 		return errors.New("Invalid or empty order quantity")
 	case l.Price <= 0.0:
