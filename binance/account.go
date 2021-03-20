@@ -83,6 +83,24 @@ func (b *Binance) PlaceMarketOrder(m MarketOrder) (res PlacedOrder, err error) {
 	return
 }
 
+// Place a Oco Order
+func (b *Binance) PlaceOcoOrder(l LimitOrder) (res PlacedOrder, err error) {
+
+	err = l.ValidateOcoOrder()
+	if err != nil {
+		return
+	}
+
+	reqUrl := fmt.Sprintf("api/v3/order/oco?symbol=%s&side=%s&stopLimitTimeInForce=%s&quantity=%f&price=%.8f&stopLimitPrice=%.8f&stopPrice=%.8f&recvWindow=%d", l.Symbol, l.Side, l.StopLimitTimeInForce, l.Quantity, l.Price, l.StopLimitPrice, l.StopPrice, l.RecvWindow)
+
+	_, err = b.client.do("POST", reqUrl, "", true, &res)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 // Cancel an Order
 func (b *Binance) CancelOrder(query OrderQuery) (order CanceledOrder, err error) {
 
