@@ -44,6 +44,43 @@ func (l *LimitOrder) ValidateLimitOrder() error {
 	}
 }
 
+// Input for: POST /api/v3/order/oco
+type OcoOrder struct {
+	Symbol      string
+	Side        string
+	StopTimeInForce string
+	StopLimitPrice float64
+	StopPrice float64
+	Quantity    float64
+	Price       float64
+	RecvWindow  int64
+}
+
+// Validating a OCO Order
+func (l *LimitOrder) ValidateLimitOrder() error {
+	switch {
+	case len(l.Symbol) == 0:
+		return errors.New("Order must contain a symbol")
+	case !OrderSideEnum[l.Side]:
+		return errors.New("Invalid or empty order side")
+	case !OrderTIFEnum[l.StopTimeInForce]:
+		return errors.New("Invalid or empty order timeInForce")
+	case l.Quantity <= 0.0:
+		return errors.New("Invalid or empty order quantity")
+	case l.Price <= 0.0:
+		return errors.New("Invalid or empty order price")
+	case l.StopLimitPrice <= 0.0:
+		return errors.New("Invalid or empty order stopLimitPrice")
+	case l.StopPrice <= 0.0:
+		return errors.New("Invalid or empty order stopPrice")
+	case l.RecvWindow == 0:
+		l.RecvWindow = 5000
+		return nil
+	default:
+		return nil
+	}
+}
+
 type MarketOrder struct {
 	Symbol     string
 	Side       string
