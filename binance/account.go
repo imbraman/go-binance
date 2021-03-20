@@ -84,7 +84,7 @@ func (b *Binance) PlaceMarketOrder(m MarketOrder) (res PlacedOrder, err error) {
 }
 
 // Place a Oco Order
-func (b *Binance) PlaceOcoOrder(l LimitOrder) (res PlacedOrder, err error) {
+func (b *Binance) PlaceOcoOrder(l OcoOrder) (res PlacedOrder, err error) {
 
 	err = l.ValidateOcoOrder()
 	if err != nil {
