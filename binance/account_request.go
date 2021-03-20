@@ -57,7 +57,7 @@ type OcoOrder struct {
 }
 
 // Validating a OCO Order
-func (l *LimitOrder) ValidateLimitOrder() error {
+func (l *OcoOrder) ValidateOcoOrder() error {
 	switch {
 	case len(l.Symbol) == 0:
 		return errors.New("Order must contain a symbol")
